@@ -1,0 +1,24 @@
+{
+    "mock_ca": {
+        "certificates": "/var/lib/est/certs/CA.pem",
+        "private_key": "/var/lib/est/certs/CA.key.pem"
+    },
+    "tls": {
+        "listen_address": "0.0.0.0:8443",
+        "certificates": "/var/lib/est/certs/server.fullchain.pem",
+        "private_key": "/var/lib/est/certs/server.key.pem",
+        "client_cas": [
+            "/var/lib/est/clients/client-CA1.pem",
+            "/var/lib/est/clients/client-CA2.pem"
+        ]
+    },
+    "allowed_hosts": [
+        "localhost",
+        "127.0.0.1",
+        "[::1]"
+    ],
+    "healthcheck_password": "xyzzy",
+    "rate_limit": 150,
+    "timeout": 30,
+    "log_file": "/var/log/est-server.log"
+}
