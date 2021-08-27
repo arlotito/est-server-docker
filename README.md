@@ -12,9 +12,11 @@ docker run -d -p 8443:8443 --name my-est-server arlotito/est:1.0.6.2
 ## Advanced configuration
 For a more complete setup, with a custom configuration and custom certs persisted on your docker host, follow the steps below.
 
+Make sure you are non-root, then:
+
 ```bash
 # set the folder that will hold the configuration and certs
-export EST_SERVER_HOME="<your-path>"   #example: /home/arturo/est-server
+export EST_SERVER_HOME="/home/${USER}/est-server"   # change it if needed
 
 # grabs this repo
 git clone https://github.com/arlotito/est-server-docker.git $EST_SERVER_HOME
@@ -79,4 +81,33 @@ sudo docker run -d \
 ```
 
 ## Test it
-TBD
+Let's connect to the EST server and check the server certificate presented:
+
+```bash
+# user your fqdn:port
+openssl s_client -showcerts -connect est.arturol76.net:8449 </dev/null \
+    | openssl x509 -noout -issuer -subject
+```
+
+To optionally verify the certificate against the root, add '-CAfile'
+```bash
+openssl s_client -showcerts -connect est.arturol76.net:8449 -CAfile ${EST_SERVER_CONFIG}/server/ca-chain.cert.pem </dev/null \
+    | openssl x509 -noout -issuer -subject    
+```
+
+If the server is up and running is ok, the openssl s_client should connect and return something like:
+```
+depth=2 C = IT, ST = IT, L = somewhere, O = something, CN = myCA
+verify return:1
+depth=1 C = IT, ST = IT, O = something, CN = int1
+verify return:1
+depth=0 C = IT, ST = IT, L = somewhere, O = something, CN = est.arturol76.net
+verify return:1
+139887641715136:error:14094412:SSL routines:ssl3_read_bytes:sslv3 alert bad certificate:../ssl/record/rec_layer_s3.c:1528:SSL alert number 42
+issuer=C = IT, ST = IT, O = art, CN = int1
+subject=C = IT, ST = IT, L = somewhere, O = something, CN = est.arturol76.net
+```
+
+NOTE: the bad certificate (code 42) means the server demands you authenticate with a certificate, and you did not do so, and that caused the handshake failure. 
+Indeed, we configured the EST server for accepting connections from clients presenting a certificate signed by ${EST_SERVER_CONFIG}/clients/ca-chain.cert.pem. To solve that, launch the openssl s_client adding '-key key.pem -cert cert.pem' (pointing to a valid device certificate).
+
