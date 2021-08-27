@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # est-docker
 Dockerized version of [this](https://github.com/arlotito/est) EST server, for TESTING and DEVELOPMENT purposes only.
 
