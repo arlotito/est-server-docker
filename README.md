@@ -16,11 +16,8 @@ For a more complete setup, with a custom configuration and custom certs persiste
 # set the folder that will hold the configuration and certs
 export EST_SERVER_HOME="<your-path>"   #example: /home/arturo/est-server
 
-# create the folder if it does not exist
-mkdir -p $EST_SERVER_HOME
-
 # grabs this repo
-git clone https://github.com/arlotito/est-server-docker.git .
+git clone https://github.com/arlotito/est-server-docker.git $EST_SERVER_HOME
 ```
 
 Add the certs and customize the configuration: 
@@ -65,11 +62,11 @@ Here's a sample 'server.cfg' configuration:
 
 Run the docker container:
 ```bash
-sudo su
-export EST_SERVER_PORT=<your-port>                  #example: 8449
-export EST_SERVER_CONFIG=$EST_SERVER_HOME/config    #example: /home/arturo/est-server
+export EST_SERVER_PORT=8449                         # change if needed
+export EST_SERVER_CONFIG=$EST_SERVER_HOME/config    
 export EST_SERVER_NAME="est-server"
 
+sudo docker run -d \
     -p ${EST_SERVER_PORT}:8443 \
     -v ${EST_SERVER_CONFIG}/server.cfg:/etc/est/config/server.cfg \
     -v ${EST_SERVER_CONFIG}/server:/var/lib/est/server:ro \
