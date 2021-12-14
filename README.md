@@ -4,7 +4,7 @@ Dockerized version of [this](https://github.com/arlotito/est) EST server, for TE
 Docker image available on DockerHub: 
 ![for easy](https://img.shields.io/docker/v/arlotito/est)
 ## Quick start
-The easy way (i.e. default configuration, CA certs genereted on the fly and no client TLS authorization): 
+The easy way (i.e. default configuration, CA certs generated on the fly and no client TLS authorization): 
 ```bash
 docker run -d -p 8443:8443 --name my-est-server arlotito/est:1.0.6.2 
 ```
@@ -84,7 +84,7 @@ sudo docker run -d \
 Let's connect to the EST server and check the server certificate presented:
 
 ```bash
-# user your fqdn:port
+# use your fqdn:port
 openssl s_client -showcerts -connect est.arturol76.net:8449 </dev/null \
     | openssl x509 -noout -issuer -subject
 ```
