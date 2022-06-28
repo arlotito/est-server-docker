@@ -1,9 +1,5 @@
-FROM golang
+FROM golang:1.18
 
-RUN go get -d -v github.com/globalsign/est
-RUN go get github.com/globalsign/pemfile
-RUN go get github.com/globalsign/tpmkeys
-RUN go get github.com/ThalesIgnite/crypto11
-#RUN go install -v github.com/globalsign/est/cmd/estserver
 RUN go install -v github.com/globalsign/est/cmd/estclient@latest
+
 

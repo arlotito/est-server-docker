@@ -1,13 +1,16 @@
-FROM golang
+FROM golang:1.18
+ARG SERVER_CN="localhost"
 
-RUN go get -d -v github.com/globalsign/est
-RUN go get github.com/globalsign/pemfile
-RUN go get github.com/globalsign/tpmkeys
-RUN go get github.com/ThalesIgnite/crypto11
+# install estserver
 RUN go install -v github.com/globalsign/est/cmd/estserver@latest
-#RUN go install -v github.com/globalsign/est/cmd/estclient@latest
 
+# create server certificate
+RUN mkdir -p /etc/est/
+WORKDIR /etc/est/
+RUN openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -subj "/CN=${SERVER_CN}" -out server.pem -keyout server.key
+
+COPY server.cfg ./server.cfg
 EXPOSE 8443
 
-CMD ["/go/bin/estserver"]
+CMD ["/go/bin/estserver", "-config", "/etc/est/server.cfg"]
 
