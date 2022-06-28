@@ -11,19 +11,8 @@ sudo docker push arlotito.azurecr.io/globalsign-est-server:1.0.6
 
 # run
 sudo docker run -d -p 8443:8443 --name my-est-server arlotito.azurecr.io/globalsign-est-server:1.0.6
-```
 
-## generate self-signed server certificate
-
-
-```bash
-export SERVER_CN="est.arturol76.net"
-openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -subj "/CN=$SERVER_CN" -out server.pem -keyout server.key
-
-# view
-openssl x509 -in server.pem -text –noout
-
-# Test SSL certificate 
+# test ssl cert
 openssl s_client -connect est.arturol76.net:443 -showcerts
 ```
 
