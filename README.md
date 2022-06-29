@@ -30,7 +30,7 @@ chmod 0666 server.key ca.key
 cd ..
 ```
 
-# run (default configuration)
+## run (default configuration)
 ```bash
 sudo docker stop my-est-server
 sudo docker rm my-est-server
@@ -42,7 +42,7 @@ sudo docker run -d \
   arlotito.azurecr.io/globalsign-est-server:$TAG
 ```
 
-# run (override configuration)
+## run (override configuration)
 ```bash
 sudo docker stop my-est-server
 sudo docker rm my-est-server
@@ -55,14 +55,14 @@ sudo docker run -d \
   arlotito.azurecr.io/globalsign-est-server:$TAG
 ```
 
-# test ssl cert
+## test ssl cert
 ```bash
 SERVER_URL="est.arturol76.net"
 
 openssl s_client -connect $SERVER_URL:8443 -showcerts
 ```
 
-# get server certificate
+## get server certificate
 ```bash
 echo | openssl s_client -servername $SERVER_URL -connect $SERVER_URL:8443 |\
   sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > server.pem
