@@ -3,8 +3,9 @@ Containerized version of [GlobalSign EST server/client](https://github.com/globa
 
 ## build and run
 ```bash
-# build
-sudo docker build -t arlotito.azurecr.io/globalsign-est-server:1.0.6 --build-arg SERVER_CN="est.arturol76.net" ./server
+# build (creates a self-signed server certificate with CN = $SERVER_URL)
+export SERVER_URL="est.arturol76.net"
+sudo docker build -t arlotito.azurecr.io/globalsign-est-server:1.0.6 --build-arg $SERVER_URL ./server
 
 # push
 sudo docker push arlotito.azurecr.io/globalsign-est-server:1.0.6
@@ -13,7 +14,16 @@ sudo docker push arlotito.azurecr.io/globalsign-est-server:1.0.6
 sudo docker run -d -p 8443:8443 --name my-est-server arlotito.azurecr.io/globalsign-est-server:1.0.6
 
 # test ssl cert
-openssl s_client -connect est.arturol76.net:443 -showcerts
+openssl s_client -connect $SERVER_URL:8443 -showcerts
+
+# get server certificate
+echo | openssl s_client -servername $SERVER_URL -connect $SERVER_URL:8443 |\
+  sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > server.pem
+
+# get CA
+curl https://$SERVER_URL:8443/.well-known/est/cacerts -o cacerts.p7 --cacert ./server.pem
+openssl base64 -d -in cacerts.p7 | openssl pkcs7 -inform DER -outform PEM -print_certs -out cacerts.pem
+rm cacerts.p7
 ```
 
 ## resources
