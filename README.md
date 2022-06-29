@@ -25,7 +25,10 @@ openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -subj "/CN=${SERV
 
 # create CA self-signed certificate
 openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -subj "/CN=${CA_CN}/C=US/ST=Somewhere/L=Here/O=MyOrg" -out ca.pem -keyout ca.key
-chmod 0666 server.key ca.key
+
+# fix permissions
+chmod 0444 server.pem ca.pem
+chmod 0400 server.key ca.key
 
 cd ..
 ```
@@ -38,7 +41,7 @@ sudo docker rm my-est-server
 sudo docker run -d \
   -p 8443:8443 \
   -v $(pwd)/est-certs:/var/lib/est \
-  --name my-est-certs \
+  --name my-est-server \
   arlotito.azurecr.io/globalsign-est-server:$TAG
 ```
 
