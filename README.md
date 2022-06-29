@@ -71,7 +71,7 @@ echo | openssl s_client -servername $SERVER_URL -connect $SERVER_URL:8443 |\
   sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > server.pem
 ```
 
-# get CA
+## get CA
 ```bash
 curl https://$SERVER_URL:8443/.well-known/est/cacerts -o cacerts.p7 --cacert ./server.pem
 openssl base64 -d -in cacerts.p7 | openssl pkcs7 -inform DER -outform PEM -print_certs -out cacerts.pem
