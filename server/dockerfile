@@ -1,16 +1,9 @@
 FROM golang:1.18
-ARG SERVER_CN="localhost"
 
 # install estserver
 RUN go install -v github.com/globalsign/est/cmd/estserver@latest
 
-# create server certificate
-RUN mkdir -p /etc/est/
-WORKDIR /etc/est/
-RUN openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -subj "/CN=${SERVER_CN}" -out server.pem -keyout server.key
-
-COPY server.cfg ./server.cfg
+COPY server.cfg /etc/est/server.cfg
 EXPOSE 8443
 
 CMD ["/go/bin/estserver", "-config", "/etc/est/server.cfg"]
-
