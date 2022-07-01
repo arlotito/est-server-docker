@@ -27,16 +27,15 @@ Deatails on custom configuration and BYOC in the following sections.
 ## run with a custom configuration and bring-your-own-certificates (BYOC)
 1. Let's create the certificates:
 ```bash
-SERVER_CN="est.arturol76.net"
-CA_CN="my EST CA"
-
 mkdir ./est-certs
 cd ./est-certs
 
-# create server self-signed certificate
+# create self-signed server certificate
+SERVER_CN="est.arturol76.net"
 openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -subj "/CN=${SERVER_CN}" -out server.pem -keyout server.key
 
-# create CA self-signed certificate
+# create CA certificate
+CA_CN="my EST CA"
 openssl req -newkey rsa:4096  -x509  -sha512  -days 365 -nodes -subj "/CN=${CA_CN}/C=US/ST=Somewhere/L=Here/O=MyOrg" -out ca.pem -keyout ca.key
 
 # fix permissions
