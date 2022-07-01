@@ -3,7 +3,6 @@ FROM golang:1.18
 # install estserver
 RUN go install -v github.com/globalsign/est/cmd/estserver@latest
 
-COPY server.cfg /etc/est/server.cfg
 EXPOSE 8443
 
-CMD ["/go/bin/estserver", "-config", "/etc/est/server.cfg"]
+CMD ["/go/bin/estserver"]

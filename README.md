@@ -1,10 +1,10 @@
 # est-docker
 Containerized version of [GlobalSign EST server/client](https://github.com/globalsign/est), for TESTING and DEVELOPMENT purposes only.
-Pre-built image: arlotitopub.azurecr.io/globalsign-est/server:1.0.6
+Pre-built image: arlotitopub.azurecr.io/globalsign-est/server:1.0.6-1
 
 ## build and push
 ```bash
-TAG=1.0.6
+TAG=1.0.6-1
 
 # build
 sudo docker build -t arlotitopub.azurecr.io/globalsign-est/server:$TAG ./server
@@ -60,7 +60,8 @@ sudo docker run -d \
   -v $(pwd)/server.cfg:/etc/est/server.cfg \
   -v $(pwd)/est-certs:/var/lib/est \
   --name my-est-server \
-  arlotitopub.azurecr.io/globalsign-est/server:$TAG
+  arlotitopub.azurecr.io/globalsign-est/server:$TAG \
+  /go/bin/estserver -config /etc/est/server.cfg
 ```
 
 ## test ssl cert
