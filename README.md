@@ -47,7 +47,7 @@ cd ..
 ```
 
 2. Let's create a "server.cfg" file with the following content:
-```
+```bash
 cat > server.cfg <<EOF
 {
     "mock_ca": {
