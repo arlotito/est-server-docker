@@ -48,6 +48,7 @@ cd ..
 
 2. Let's create a "server.cfg" file with the following content:
 ```
+cat > server.cfg <<EOF
 {
     "mock_ca": {
         "certificates": "/var/lib/est/ca.pem",
@@ -59,6 +60,7 @@ cd ..
         "private_key": "/var/lib/est/server.key"
     }
 }
+EOF
 ```
 
 3. run the docker container:
