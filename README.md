@@ -65,24 +65,18 @@ EOF
 
 3. run the docker container:
 ```bash
-TAG=1.0.6-1
-
-sudo docker stop my-est-server
-sudo docker rm my-est-server
-
 sudo docker run -d \
   -p 8443:8443 \
   -v $(pwd)/server.cfg:/etc/est/server.cfg \
   -v $(pwd)/est-certs:/var/lib/est \
   --name my-est-server \
-  arlotitopub.azurecr.io/globalsign-est/server:$TAG \
+  arlotitopub.azurecr.io/globalsign-est/server:1.0.6-1 \
   /go/bin/estserver -config /etc/est/server.cfg
 ```
 
 ## test ssl cert
 ```bash
 SERVER_URL="est.arturol76.net"
-
 openssl s_client -connect $SERVER_URL:8443 -showcerts
 ```
 
@@ -104,11 +98,11 @@ rm cacerts.p7
 TAG=1.0.6-1
 
 # build
-sudo docker build -t arlotitopub.azurecr.io/globalsign-est/server:$TAG ./server
+sudo docker build -t arlotitopub.azurecr.io/globalsign-est/server:1.0.6-1 ./server
 
 # push
-sudo docker push arlotitopub.azurecr.io/globalsign-est/server:$TAG
+sudo docker push arlotitopub.azurecr.io/globalsign-est/server:1.0.6-1
 ```
 
 ## resources
-* openssl cheatsheet: https://geekflare.com/openssl-commands-certificates/#:~:text=Create%20a%20Self-Signed%20Certificate%20openssl%20req%20-x509%20-sha256,as%20it%E2%80%99s%20considered%20most%20secure%20at%20the%20moment
+* [openssl cheatsheet](https://geekflare.com/openssl-commands-certificates/#:~:text=Create%20a%20Self-Signed%20Certificate%20openssl%20req%20-x509%20-sha256,as%20it%E2%80%99s%20considered%20most%20secure%20at%20the%20moment)
